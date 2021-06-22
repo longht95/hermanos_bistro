@@ -1,5 +1,176 @@
-<zk>
-    <window title="Hello ZK - Spring Boot!" border="normal">
-        You are using ZK version <label value="${session.webApp.version}"/>
-    </window>
-</zk>
+<?link  rel="stylesheet" type="text/css" href="/style.css"?>
+<div xmlns:n="native" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('hermanos.bistro.pizza.viewmodel.IndexViewModel')">
+	<div class="header">
+		<div class="header-wrap">
+			<a href="#" class="block-logo-img">
+				<image class="" src="/logo.png"
+					style="max-width: 100%;" />
+			</a>
+			<div class="header-n:button">
+				<n:button class="header-lang">
+
+				</n:button>
+				<n:button class="header-menu">
+
+				</n:button>
+			</div>
+		</div>
+		<div class="header-cart">
+			<div class="location"></div>
+			<div class="box-cart">
+				<image class="cart-img" src="/icon_ourcart.svg" />
+				<label class="number-cart" value="@load(vm.quantity)"></label>
+			</div>
+		</div>
+		<n:nav>
+			<n:ul>
+				<n:li>
+					<a href="#">Mới Gợi ý</a>
+				</n:li>
+				<n:li>
+					<a href="#">Bánh pizza</a>
+				</n:li>
+				<n:li>
+					<a href="#">Khai vị</a>
+				</n:li>
+				<n:li>
+					<a href="#">Sallad</a>
+				</n:li>
+				<n:li>
+					<a href="#">Mì ý</a>
+				</n:li>
+				<n:li>
+					<a href="#">Tráng miệng</a>
+				</n:li>
+			</n:ul>
+		</n:nav>
+	</div>
+	<if test="@load(!vm.details)">
+		<div class="list-product" children="@init(vm.listProduct)">
+			<template name="children" var="node">
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img"
+							onClick="@command('viewDetails', product = node)">
+							<image class="img-style"
+								src="${node.srcImg}" />
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<n:h3 class="title-item">
+									${node.name}
+								</n:h3>
+								<n:p class="description-item">
+									${node.description}
+								</n:p>
+							</div>
+
+						</div>
+					</div>
+					<div class="event-item">
+						<n:p class="price-item">
+							từ ${node.price} vnđ
+						</n:p>
+						<div class="btn-list">
+							<if test="@load(node.half and !vm.half)">
+								<button class="half-pizza"
+									onClick="@command('viewDetails', product = node)">
+									Pizza ghép
+								</button>
+							</if>
+							<if test="@load(vm.half and vm.selectedItem.id ne node.id)">
+								<button class="order-pizza"
+									onClick="@command('chooseHalfPizza', product = node)">
+									Chọn
+								</button>
+							</if>
+							<button class="order-pizza"
+								onClick="@command('addItem', product = node)">
+								Mua ngay
+							</button>
+
+						</div>
+					</div>
+				</div>
+			</template>
+		</div>
+	</if>
+	<if test="@load(vm.details)">
+		<div class="details-item product-details">
+			<div class="details-product-item">
+				<div class="details-img-item">
+					<image
+						sclass="@load(vm.half ? 'img-style-details img-style-left-half' : 'img-style-details')"
+						src="${vm.selectedItem.srcImg}" />
+					<if
+						test="@load(vm.half and null eq vm.selectedItemHalf)">
+						<div class="hidden-half"></div>
+					</if>
+					<if
+						test="@load(vm.half and null ne vm.selectedItemHalf)">
+						<image class="img-style-details"
+							src="${vm.selectedItemHalf.srcImg}" />
+					</if>
+
+				</div>
+				<div class="details-item-action">
+					<div class="details-info-item">
+						<n:h3>${vm.selectedItem.name}</n:h3>
+						<div class="details-button-pizza">
+							<div class="button-full-size"
+								onClick="@command('switchHalf')"
+								sclass="@load(vm.half ? 'visible-50-pizza button-full-size' : 'button-full-size')">
+								<image
+									src="/icon_full_size_pizza.svg">
+								</image>
+								<span>Pizza nguyên</span>
+							</div>
+							<div class="button-half-size"
+								onClick="@command('switchHalf')"
+								sclass="@load(vm.half ? 'button-half-size' : 'visible-50-pizza button-half-size')">
+								<image
+									src="/icon_half_size_pizza.svg">
+								</image>
+								<span>Pizza ghép</span>
+							</div>
+						</div>
+						<div class="details-topping-item">
+							<n:h3>Thêm topping:</n:h3>
+							<div class="details-topping-list">
+								<forEach items="@load(vm.listTopping)"
+									var="item">
+									<checkbox id="${item.name}"
+										label="${item.name}"
+										onCheck="@command('addTopping', topping = item)"
+										checked="@load(vm.checkedTopping(item))" />
+								</forEach>
+							</div>
+						</div>
+					</div>
+
+					<div class="details-button-item">
+						<if
+							test="@load(vm.half and null eq vm.selectedItemHalf)">
+							<button class="order-pizza"
+								onClick="@command('chooseHalf', product = node)">
+								Chọn 1/2 bánh còn lại
+							</button>
+						</if>
+						<if
+							test="@load(!vm.half or null ne vm.selectedItemHalf)">
+							<button class="order-pizza"
+								onClick="@command('addItem')">
+								${vm.selectedItem.price}Mua ngay
+							</button>
+						</if>
+						<button onClick="@command('closeDetails')">
+							Trở lại
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</if>
+</div>
+

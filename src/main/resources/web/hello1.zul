@@ -1,0 +1,185 @@
+<html 
+	xmlns:x="http://www.zkoss.org/2005/zul"
+	xmlns:zk="http://www.zkoss.org/2005/zk">
+	<head>
+		<title>ZHTML Demo</title>
+		<link rel="stylesheet" href="/style.css"/>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-wrap">
+				<a href="#" class="block-logo-img"><image class="" src="/logo.png" style="max-width: 100%;"/></a>
+				<div class="header-button">
+					<button class="header-lang">
+						
+					</button>
+					<button class="header-menu">
+					
+					</button>
+				</div>
+			</div>
+			<div class="header-cart">
+				<div class="location">
+				</div>
+				<div class="box-cart">
+					<image class="cart-img" src="/icon_ourcart.svg"/>
+					<span class="number-cart">0</span>
+				</div>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="#">Mới Gợi ý</a></li>
+					<li><a href="#">Bánh pizza</a></li>
+					<li><a href="#">Khai vị</a></li>
+					<li><a href="#">Sallad</a></li>
+					<li><a href="#">Mì ý</a></li>
+					<li><a href="#">Tráng miệng</a></li>
+				</ul>
+			</nav>
+		</div>
+		<main>
+			
+			<div class="list-product" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('hermanos.bistro.pizza.viewmodel.IndexViewModel') @load(vm.listProduct)">
+				xxx
+				<template name="model" var="item">
+			        <span label="@load(item.name)"/>
+			    </template>
+				xxxx
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano, Camembert và phô mai xanh</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano, Camembert và phô mai xanh</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano, Camembert và phô mai xanh</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano, Camembert và phô mai xanh</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-item">
+					<div class="product-info-block">
+						<div class="product-img">
+							<img class="img-style" src="pizza1.png"/>
+							
+						</div>
+						<div class="product-info">
+							<div class="title-info">
+								<h3 class="title-item">Pizza Cheese</h3>
+								<p class="description-item">Phô mai Mozzarella, Grano Padano, Camembert và phô mai xanh</p>
+							</div>
+							
+						</div>
+					</div>
+					<div class="event-item">
+						<p class="price-item">248,000 vnd</p>
+						<div class="btn-list">
+							<button class="half-pizza">Pizza ghép</button>
+							<button class="order-pizza">Mua ngay</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

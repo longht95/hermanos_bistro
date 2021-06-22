@@ -100,7 +100,7 @@ public class IndexViewModel {
 		System.out.println("xxxxxxxx"+listProduct.get(0).getName());
 	}
 	
-	@NotifyChange({"listOrderDetails", "quantity"})
+	@NotifyChange({"listOrderDetails", "quantity", "details", "half"})
 	@Command
 	public void addItem(@BindingParam("product") Product product) {
 		OrderDetails details = new OrderDetails();
@@ -111,6 +111,10 @@ public class IndexViewModel {
 			System.out.println("mua ngoai index");
 			details.setProduct(product);
 		}
+		if (isHalf) {
+			details.setHalf(selectedItemHalf);
+		}
+		details.setHalf(isHalf);
 		details.setQuantity(1);
 		listOrderDetails.add(details);
 		System.out.println("size"+listOrderDetails.size());

@@ -23,6 +23,9 @@ public class OrderDetails {
 	@ManyToOne
 	private Product product;
 	
+	@ManyToOne
+	private Product half;
+	
 	private boolean isHalf;
 	
 	private int quantity;
@@ -87,6 +90,15 @@ public class OrderDetails {
 	public void setToppings(List<Topping> toppings) {
 		this.toppings = toppings;
 	}
+
+	public Product getHalf() {
+		return half;
+	}
+
+	public void setHalf(Product half) {
+		this.half = half;
+	}
+	
 	
 	
 }

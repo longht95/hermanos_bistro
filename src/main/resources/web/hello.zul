@@ -18,9 +18,10 @@
 		</div>
 		<div class="header-cart">
 			<div class="location"></div>
-			<div class="box-cart">
+			<div class="box-cart" onClick="@command('viewCart')">
 				<image class="cart-img" src="/icon_ourcart.svg" />
-				<label class="number-cart" value="@load(vm.quantity)"></label>
+				<label class="number-cart" value="@load(vm.quantity)">
+				</label>
 			</div>
 		</div>
 		<n:nav>
@@ -46,7 +47,8 @@
 			</n:ul>
 		</n:nav>
 	</div>
-	<if test="@load(!vm.details)">
+
+	<if test="@load(!vm.details and !vm.cart)">
 		<div class="list-product" children="@init(vm.listProduct)">
 			<template name="children" var="node">
 				<div class="product-item">
@@ -79,17 +81,20 @@
 									Pizza ghép
 								</button>
 							</if>
-							<if test="@load(vm.half and vm.selectedItem.id ne node.id)">
+							<if
+								test="@load(vm.half and vm.selectedItem.id ne node.id)">
 								<button class="order-pizza"
 									onClick="@command('chooseHalfPizza', product = node)">
 									Chọn
 								</button>
 							</if>
-							<button class="order-pizza"
-								onClick="@command('addItem', product = node)">
-								Mua ngay
-							</button>
+							<if test="@load(!vm.half)">
 
+								<button class="order-pizza"
+									onClick="@command('addItem', product = node)">
+									Mua ngay
+								</button>
+							</if>
 						</div>
 					</div>
 				</div>
@@ -104,10 +109,6 @@
 						sclass="@load(vm.half ? 'img-style-details img-style-left-half' : 'img-style-details')"
 						src="${vm.selectedItem.srcImg}" />
 					<if
-						test="@load(vm.half and null eq vm.selectedItemHalf)">
-						<div class="hidden-half"></div>
-					</if>
-					<if
 						test="@load(vm.half and null ne vm.selectedItemHalf)">
 						<image class="img-style-details"
 							src="${vm.selectedItemHalf.srcImg}" />
@@ -117,9 +118,18 @@
 				<div class="details-item-action">
 					<div class="details-info-item">
 						<n:h3>${vm.selectedItem.name}</n:h3>
+						<span>${vm.selectedItem.description}</span>
+						<if
+							test="@load(null ne vm.selectedItemHalf and vm.half)">
+							<n:h3>${vm.selectedItemHalf.name}</n:h3>
+							<span>
+								${vm.selectedItemHalf.description}
+							</span>
+						</if>
+
 						<div class="details-button-pizza">
 							<div class="button-full-size"
-								onClick="@command('switchHalf')"
+								onClick="@command('switchHalf', switchHalf = false)"
 								sclass="@load(vm.half ? 'visible-50-pizza button-full-size' : 'button-full-size')">
 								<image
 									src="/icon_full_size_pizza.svg">
@@ -127,7 +137,7 @@
 								<span>Pizza nguyên</span>
 							</div>
 							<div class="button-half-size"
-								onClick="@command('switchHalf')"
+								onClick="@command('switchHalf', switchHalf = true)"
 								sclass="@load(vm.half ? 'button-half-size' : 'visible-50-pizza button-half-size')">
 								<image
 									src="/icon_half_size_pizza.svg">
@@ -152,19 +162,21 @@
 					<div class="details-button-item">
 						<if
 							test="@load(vm.half and null eq vm.selectedItemHalf)">
-							<button class="order-pizza"
+							<button class="pickup-pizza"
 								onClick="@command('chooseHalf', product = node)">
 								Chọn 1/2 bánh còn lại
 							</button>
 						</if>
 						<if
 							test="@load(!vm.half or null ne vm.selectedItemHalf)">
-							<button class="order-pizza"
-								onClick="@command('addItem')">
-								${vm.selectedItem.price}Mua ngay
-							</button>
+							<div onClick="@command('addItem')"
+								class="btn-add-cart">
+								<label value="@load(vm.totalPrice)"></label>
+								<span>Thêm vào giỏ hàng</span>
+							</div>
 						</if>
-						<button onClick="@command('closeDetails')">
+						<button class="back-button"
+							onClick="@command('closeDetails')">
 							Trở lại
 						</button>
 					</div>
@@ -172,5 +184,84 @@
 			</div>
 		</div>
 	</if>
-</div>
 
+	<if test="@load(vm.cart)">
+		<div class="container-cart">
+			<n:h1>Giỏ hàng của bạn</n:h1>
+			<div class="cart-item-list"
+				children="@init(vm.listOrderDetails)">
+				<template name="children" var="node" status="s">
+					<div class="cart-item-details">
+						<div class="cart-item-img">
+							<image
+								sclass="@load(node.half ? 'cart-img-details cart-img-left-half' : 'cart-img-details')"
+								src="${node.product.srcImg}" />
+							<if test="@load(node.half)">
+								<image class="cart-img-details"
+									src="${node.productHalf.srcImg}" />
+							</if>
+						</div>
+						<div class="cart-information">
+							<if test="${node.half }">
+								<n:h3 class="unset-mg">
+									Half and Half
+								</n:h3>
+								<n:p class="cart-style-product">
+									${node.productHalf.name}
+								</n:p>
+							</if>
+							<n:p class="cart-style-product">
+								${node.product.name}
+							</n:p>
+
+							<if test="${node.toppings.size() != 0 }">
+								<n:h3
+									class="description-item mg-style">
+									Topping:
+								</n:h3>
+								<forEach items="@load(node.toppings)"
+									var="topping">
+									<n:p class="cart-style-product">
+										- ${topping.name}
+									</n:p>
+								</forEach>
+							</if>
+
+							<label class="cart-price mg-style"
+								value="@load(vm.getTotalPriceCart(node))">
+							</label>
+							<div class="flex-cart-btn">
+								<span
+									onClick="@command('addQuantity', item = s.index)"
+									class="add-quantity">
+								</span>
+								<label value="@load(node.quantity)"></label>
+								<span
+									onClick="@command('lessQuantity', item = s.index)"
+									class="less-quantity">
+								</span>
+							</div>
+						</div>
+						<div class="cart-delete">
+							<span
+								onClick="@command('deleteQuantity', item = s.index)"
+								class="delete-quantity">
+							</span>
+						</div>
+					</div>
+				</template>
+			</div>
+			<div class="details-button-item">
+				<div onClick="@command('addItem')"
+					class="btn-add-cart">
+					<label value="@load(vm.totalPriceAll)"></label>
+					<span>Thanh toán</span>
+				</div>
+				<button class="back-button"
+					onClick="@command('closeDetails')">
+					Chọn thêm
+				</button>
+			</div>
+		</div>
+	</if>
+</div>

@@ -24,7 +24,7 @@ public class OrderDetails {
 	private Product product;
 	
 	@ManyToOne
-	private Product half;
+	private Product productHalf;
 	
 	private boolean isHalf;
 	
@@ -91,13 +91,14 @@ public class OrderDetails {
 		this.toppings = toppings;
 	}
 
-	public Product getHalf() {
-		return half;
+	public Product getProductHalf() {
+		return productHalf;
 	}
 
-	public void setHalf(Product half) {
-		this.half = half;
+	public void setProductHalf(Product productHalf) {
+		this.productHalf = productHalf;
 	}
+
 	
 	
 	
